@@ -1,0 +1,3 @@
+[submodule "Win32Lib"]
+	path = Win32Lib
+	url = https://github.com/dinatale2/Win32Lib.git
