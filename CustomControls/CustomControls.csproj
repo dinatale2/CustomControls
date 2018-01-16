@@ -93,6 +93,9 @@
     <Compile Include="CustomProgressBar.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CustomTabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="LoadingCircle.cs">
       <SubType>Component</SubType>
     </Compile>
