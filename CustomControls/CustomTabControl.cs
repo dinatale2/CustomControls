@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System;
 using Drawing.ThemeRoutines;
+using System.ComponentModel;
 
 namespace SQL_QueryRunner
 {
@@ -9,8 +10,9 @@ namespace SQL_QueryRunner
     {
         private UxThemeManager m_ThemeManager;
 
-        // TODO: Add events for tab closing
         // TODO: Implement proper sizing of uxtheme parts (GetThemeSize)
+
+        public event CancelEventHandler TabClosing;
 
         public CustomTabControl() : base()
         {
@@ -72,7 +74,13 @@ namespace SQL_QueryRunner
                 return;
 
             if (GetCloseBtnRect(MouseDownIndex).Contains(e.Location))
-                TabPages.RemoveAt(MouseDownIndex);
+            {
+                CancelEventArgs args = new CancelEventArgs(false);
+                TabClosing?.Invoke(this, args);
+
+                if (!args.Cancel)
+                    TabPages.RemoveAt(MouseDownIndex);
+            }
 
             MouseDownIndex = -1;
             Invalidate();
@@ -92,7 +100,7 @@ namespace SQL_QueryRunner
                 {
                     if (rClose.Contains(p))
                         m_ThemeManager.DrawThemeBackground(
-                            UxThemeElements.WINDOW, pHdc, (int)WindowParts.SmallCloseButton, 
+                            UxThemeElements.WINDOW, pHdc, (int)WindowParts.SmallCloseButton,
                             (int)CloseButtonState.Hot, ref rClose, IntPtr.Zero);
                     else
                         m_ThemeManager.DrawThemeBackground(
